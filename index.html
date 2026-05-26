@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portafolio · Fotografía</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── VARIABLES ─────────────────────────────────────────────────── */
+    :root {
+      --bg:       #0a0a0a;
+      --surface:  #111111;
+      --border:   #222222;
+      --accent:   #c8a96e;     /* warm gold */
+      --text:     #e8e2d9;
+      --muted:    #6b6560;
+      --white:    #f5f0eb;
+
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body:    'Cormorant Garamond', serif;
+      --font-mono:    'DM Mono', monospace;
+    }
+
+    /* ── RESET ──────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── NOISE OVERLAY ──────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    /* ── HEADER / NAV ───────────────────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      letter-spacing: 0.12em;
+      color: var(--white);
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav {
+      display: flex;
+      gap: 2.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    nav a {
+      transition: color 0.25s;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover { color: var(--accent); }
+    nav a:hover::after { width: 100%; }
+
+    /* ── HERO ───────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 5rem;
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 3rem 4rem 3rem;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 8vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      margin-bottom: 2rem;
+    }
+
+    .hero-title em {
+      display: block;
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: clamp(2.5rem, 4vw, 4.5rem);
+      font-weight: 300;
+      color: var(--accent);
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 38ch;
+      margin-bottom: 3rem;
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 0.4rem;
+      transition: gap 0.3s;
+      width: fit-content;
+    }
+
+    .hero-cta:hover { gap: 1.4rem; }
+
+    .hero-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image img {
+      height: 100%;
+      filter: grayscale(20%) contrast(1.05);
+      transition: transform 8s ease;
+    }
+
+    .hero-image:hover img { transform: scale(1.04); }
+
+    .hero-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, var(--bg) 0%, transparent 30%);
+    }
+
+    .hero-counter {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    /* ── SECTION LABELS ─────────────────────────────────────────────── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      letter-spacing: 0.06em;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    /* ── DIVIDER ────────────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 0 3rem;
+    }
+
+    /* ── GALLERY ────────────────────────────────────────────────────── */
+    #galeria {
+      padding: 7rem 3rem;
+    }
+
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .gallery-count {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      align-self: flex-end;
+    }
+
+    /* Masonry-style grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 1rem;
+    }
+
+    .photo-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    /* Layout: 6 photos in an editorial arrangement */
+    .photo-card:nth-child(1) { grid-column: 1 / 8;  grid-row: 1; aspect-ratio: 16/10; }
+    .photo-card:nth-child(2) { grid-column: 8 / 13; grid-row: 1; aspect-ratio: 4/5; }
+    .photo-card:nth-child(3) { grid-column: 1 / 5;  grid-row: 2; aspect-ratio: 4/5; }
+    .photo-card:nth-child(4) { grid-column: 5 / 10; grid-row: 2; aspect-ratio: 4/5; }
+    .photo-card:nth-child(5) { grid-column: 10 / 13;grid-row: 2; aspect-ratio: 4/5; }
+    .photo-card:nth-child(6) { grid-column: 1 / 13; grid-row: 3; aspect-ratio: 21/9; }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(15%) contrast(1.08);
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  filter 0.5s ease;
+    }
+
+    .photo-card:hover img {
+      transform: scale(1.06);
+      filter: grayscale(0%) contrast(1.1);
+    }
+
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.8) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+    }
+
+    .photo-card:hover .photo-overlay { opacity: 1; }
+
+    .photo-meta {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .photo-num {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+
+    /* ── LIGHTBOX ───────────────────────────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0,0,0,0.95);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem; right: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      cursor: pointer;
+      background: none; border: none;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover { color: var(--accent); }
+
+    /* ── ABOUT ──────────────────────────────────────────────────────── */
+    #sobre {
+      padding: 7rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-image {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .about-image img { filter: grayscale(20%); }
+
+    .about-image::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: -1px; right: -1px;
+      height: 40%;
+      background: linear-gradient(to top, var(--bg), transparent);
+    }
+
+    .about-frame {
+      position: absolute;
+      top: 1.5rem; left: 1.5rem;
+      width: calc(100% - 3rem);
+      height: calc(100% - 3rem);
+      border: 1px solid var(--accent);
+      transform: translate(0.8rem, 0.8rem);
+      pointer-events: none;
+    }
+
+    .about-text { padding: 1rem 0; }
+
+    .about-text .section-title { margin-bottom: 2rem; }
+
+    .about-body {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 2rem;
+    }
+
+    .about-body strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-num {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ── CONTACT ────────────────────────────────────────────────────── */
+    #contacto {
+      padding: 7rem 3rem;
+      text-align: center;
+      position: relative;
+    }
+
+    #contacto::before {
+      content: 'CONTACTO';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: clamp(6rem, 18vw, 22rem);
+      letter-spacing: 0.04em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.03);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .contact-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-inner .section-label { justify-content: center; display: flex; }
+
+    .contact-inner .section-title {
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-tagline {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .contact-link-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .contact-link-value {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      color: var(--text);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, color 0.3s;
+      padding-bottom: 2px;
+    }
+
+    .contact-link:hover .contact-link-value {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer .logo { font-size: 1.1rem; }
+
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    /* ── SCROLL FADE-IN ─────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      header { padding: 1.2rem 1.5rem; }
+      nav { gap: 1.5rem; }
+
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-image { height: 55vw; }
+      .hero-image-overlay { background: linear-gradient(to top, var(--bg) 0%, transparent 40%); }
+      .hero-text { padding: 3rem 1.5rem; }
+
+      #galeria, #sobre, #contacto, footer { padding: 4rem 1.5rem; }
+
+      .gallery-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+
+      .photo-card:nth-child(1) { grid-column: 1 / 13; }
+      .photo-card:nth-child(2) { grid-column: 1 / 13; grid-row: 2; }
+      .photo-card:nth-child(3) { grid-column: 1 / 7;  grid-row: 3; }
+      .photo-card:nth-child(4) { grid-column: 7 / 13; grid-row: 3; }
+      .photo-card:nth-child(5) { grid-column: 1 / 13; grid-row: 4; }
+      .photo-card:nth-child(6) { grid-column: 1 / 13; grid-row: 5; aspect-ratio: 4/3; }
+
+      #sobre { grid-template-columns: 1fr; gap: 3rem; }
+      .about-image { max-height: 400px; }
+
+      .divider { margin: 0 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <header>
+    <div class="logo"><span>.</span>Gyuhee Jo</div>
+    <nav>
+      <a href="#galeria">Galería</a>
+      <a href="#sobre">Sobre mí</a>
+    </nav>
+  </header>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Portafolio fotográfico · 2026</p>
+      <h1 class="hero-title">
+        <br>Gyuhee Jo
+        <em>Fotografía</em>
+      </h1>
+      <p class="hero-desc">
+        Capturo instantes que el ojo pasa por alto.
+        Luz, sombra y silencio convertidos en imagen.
+      </p>
+      <a href="#galeria" class="hero-cta">
+        Ver galería &nbsp;→
+      </a>
+    </div>
+    <div class="hero-image">
+      <img src="foto1.jpeg" alt="Fotografía destacada" />
+      <div class="hero-image-overlay"></div>
+      <span class="hero-counter">001 / PORTADA</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── GALLERY ── -->
+  <section id="galeria">
+    <div class="gallery-header reveal">
+      <div>
+        <p class="section-label">Galería</p>
+        <h2 class="section-title">OBRAS</h2>
+      </div>
+      <span class="gallery-count">06 fotografías</span>
+    </div>
+
+    <div class="gallery-grid">
+
+      <div class="photo-card reveal" onclick="openLightbox(this)">
+        <img src="foto1.jpeg" alt="Fotografía 01" />
+        <div class="photo-overlay">
+          <div class="photo-meta">
+            <span class="photo-num">001</span>
+            Raíces
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-card reveal" onclick="openLightbox(this)" style="transition-delay:0.1s">
+        <img src="foto2.jpeg" alt="Fotografía 02" />
+        <div class="photo-overlay">
+          <div class="photo-meta">
+            <span class="photo-num">002</span>
+            Entre la niebla
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-card reveal" onclick="openLightbox(this)" style="transition-delay:0.15s">
+        <img src="foto3.jpeg" alt="Fotografía 03" />
+        <div class="photo-overlay">
+          <div class="photo-meta">
+            <span class="photo-num">003</span>
+           Umbral
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-card reveal" onclick="openLightbox(this)" style="transition-delay:0.2s">
+        <img src="foto4.jpeg" alt="Fotografía 04" />
+        <div class="photo-overlay">
+          <div class="photo-meta">
+            <span class="photo-num">004</span>
+            Verano
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-card reveal" onclick="openLightbox(this)" style="transition-delay:0.25s">
+        <img src="foto5.jpeg" alt="Fotografía 05" />
+        <div class="photo-overlay">
+          <div class="photo-meta">
+            <span class="photo-num">005</span>
+            Valle en pausa
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-card reveal" onclick="openLightbox(this)" style="transition-delay:0.3s">
+        <img src="foto6.jpeg" alt="Fotografía 06" />
+        <div class="photo-overlay">
+          <div class="photo-meta">
+            <span class="photo-num">006</span>
+           Muy lejano
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">[ cerrar ]</button>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── ABOUT ── -->
+  <section id="sobre">
+    <div class="about-image reveal">
+      <img src="auto.jpeg" alt="Retrato del fotógrafo" />
+      <div class="about-frame"></div>
+    </div>
+    <div class="about-text reveal" style="transition-delay:0.15s">
+      <p class="section-label">Sobre mí</p>
+      <h2 class="section-title">QUIÉN<br>SOY</h2>
+      <p class="about-body">
+        <strong>Gyuhee Jo</strong>, construyen su mirada desde el cruce entre dos mundos: el arte y la naturaleza. Sus intereses no se quedan quietos en un solo lugar, sino que viajan, observan y encuentran en cada paisaje una razón para detenerse.
+Su trabajo creativo nace de esa misma inquietud: la necesidad de transformar lo que ven en algo que otros puedan sentir. Entienden el arte no como un fin, sino como un lenguaje, una forma honesta de comunicar lo que el día a día muchas veces no alcanza a decir con palabras.
+Los viajes han sido parte esencial de quiénes son. Cada lugar recorrido ha dejado una marca, no solo en sus recuerdos, sino en su manera de crear y de relacionarse con el entorno. Han aprendido a mirar con más calma, a encontrar belleza en lo que otros pasan por alto.
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="logo"><span>.</span>Gyuhee Jo</div>
+    <span class="footer-copy">© 2026 · Todos los derechos reservados</span>
+  </footer>
+
+  <!-- ── JS ── -->
+  <script>
+    // ── Lightbox ──────────────────────────────────────────────────────
+    function openLightbox(card) {
+      const src = card.querySelector('img').src;
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // ── Scroll reveal ─────────────────────────────────────────────────
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
